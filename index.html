@@ -40,7 +40,11 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 <div id="form-wrapper">
 <h1>🧵✨ Votre Commande</h1>
 <p class="sub">Choisissez votre univers et personnalisez votre création 💜</p>
-<form id="orderForm">
+<form id="orderForm" action="https://web3forms.com" method="POST">
+<input type="hidden" name="access_key" value="98085d66-7173-46cd-9c5c-54cdf33ef642">
+<input type="hidden" name="subject" value="Nouvelle commande CréaProjet ! 🌸">
+<input type="hidden" name="from_name" value="CréaProjet Site Web">
+<input type="hidden" name="redirect" value="https://netlify.app">
 <input type="hidden" id="universInput" name="Univers" required>
 <div class="st">1. Quel est votre projet ? <span class="req">*</span></div>
 <div class="grid">
@@ -110,14 +114,14 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 
 <div id="common" class="hidden">
 <div class="st">3. Budget & Précisions</div>
-<div class="fg"><label>Budget estimé <span class="req">*</span></label>
-<div class="sc"><div class="pd" id="pv">30 €</div><input type="range" id="br" name="Budget" min="5" max="100" value="30" step="5" oninput="upP(this.value)"><div class="rl"><span>5 €</span><span>50 €</span><span>100 € et +</span></div></div></div>
+<div class="fg"><label>Budget estimé (€) <span class="req">*</span></label>
+<div class="sc"><div class="pd" id="pv">30 €</div><input type="range" id="br" name="Budget (€)" min="5" max="100" value="30" step="5" oninput="upP(this.value)"><div class="rl"><span>5 €</span><span>50 €</span><span>100 € et +</span></div></div></div>
 <div class="fg"><label>Précisions <span class="opt">(Facultatif)</span></label><textarea id="prec" name="Précisions"></textarea></div>
 <div class="st">4. Vos coordonnées</div>
 <div class="fg"><label>Téléphone <span class="req">*</span></label><input type="tel" id="tel" name="Téléphone" required></div>
 <div class="fg"><label>Nom et prénom <span class="opt">(Facultatif)</span></label><input type="text" id="nom" name="Nom"></div>
 <div class="fg"><label>E-mail <span class="opt">(Facultatif)</span></label><input type="email" id="email" name="email"></div>
-<button type="submit" id="submitBtn" class="sbtn">Envoyer ma commande 🌸</button>
+<button type="submit" class="sbtn">Envoyer ma commande 🌸</button>
 </div></form></div>
 
 <div id="thank-you" class="thanks hidden">
@@ -128,11 +132,15 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 📞 Téléphone / WhatsApp : <strong>06 21 20 26 94</strong><br>
 ✉️ E-mail : <strong>elmundodeleden@gmail.com</strong>
 </div>
-<button type="button" class="sbtn" onclick="location.reload()">Passer une autre commande ✨</button>
+<button type="button" class="sbtn" onclick="window.location.href='https://netlify.app'">Passer une autre commande ✨</button>
 </div>
 </div>
 
 <script>
+if(window.location.search.includes('merci=1')){
+  document.getElementById('form-wrapper').classList.add('hidden');
+  document.getElementById('thank-you').classList.remove('hidden');
+}
 let cur='';
 function selU(u,b){cur=u;document.getElementById('universInput').value=u;document.querySelectorAll('.btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');['sec-crochet','sec-couture','sec-mode'].forEach(i=>document.getElementById(i).classList.add('hidden'));['mod-d','pel-d','pel-t','aut-c','aut-co','pc-aut-d'].forEach(i=>document.getElementById(i).required=false);if(u==='Crochet')document.getElementById('sec-crochet').classList.remove('hidden');else if(u==='Couture')document.getElementById('sec-couture').classList.remove('hidden');else{document.getElementById('sec-mode').classList.remove('hidden');document.getElementById('mod-d').required=true}document.getElementById('common').classList.remove('hidden')}
 function togC(t){['sub-pc','sub-pel','sub-aut'].forEach(i=>document.getElementById(i).classList.add('hidden'));['pel-d','pel-t','aut-c','pc-aut-d'].forEach(i=>document.getElementById(i).required=false);if(t==='pc'){document.getElementById('sub-pc').classList.remove('hidden');if(document.getElementById('chk-pc-aut').checked)document.getElementById('pc-aut-d').required=true}else if(t==='pel'){document.getElementById('sub-pel').classList.remove('hidden');document.getElementById('pel-d').required=true;document.getElementById('pel-t').required=true}else{document.getElementById('sub-aut').classList.remove('hidden');document.getElementById('aut-c').required=true}}
@@ -140,27 +148,8 @@ function togP(){document.getElementById('col-p').classList.toggle('hidden',!docu
 function togPCAut(){const c=document.getElementById('chk-pc-aut').checked;document.getElementById('sub-pc-aut').classList.toggle('hidden',!c);document.getElementById('pc-aut-d').required=c}
 function togCA(){const c=document.getElementById('chk-ca').checked;document.getElementById('sub-ca').classList.toggle('hidden',!c);document.getElementById('aut-co').required=c}
 function upP(v){document.getElementById('pv').textContent=(v==100)?"100 € et +":v+" €"}
-
 document.getElementById('orderForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  if(cur==='Crochet'&&!document.querySelector('input[name="Type Crochet"]:checked')){alert("Choisissez un type en crochet.");return;}
-  const btn=document.getElementById('submitBtn');
-  btn.textContent="Envoi en cours... ⏳";
-  btn.disabled=true;
-  const formData=new FormData(this);
-  formData.append('_subject','Nouvelle commande CréaProjet !');
-  formData.append('_template','table');
-  fetch('https://formsubmit.co',{method:'POST',body:formData})
-  .then(res=>{
-    document.getElementById('form-wrapper').classList.add('hidden');
-    document.getElementById('thank-you').classList.remove('hidden');
-    window.scrollTo(0,0);
-  })
-  .catch(err=>{
-    document.getElementById('form-wrapper').classList.add('hidden');
-    document.getElementById('thank-you').classList.remove('hidden');
-    window.scrollTo(0,0);
-  });
+  if(cur==='Crochet'&&!document.querySelector('input[name="Type Crochet"]:checked')){e.preventDefault();alert("Choisissez un type en crochet.");}
 });
 </script>
 </body>
