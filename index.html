@@ -30,16 +30,17 @@ textarea{min-height:75px}
 input[type="range"]{width:100%;accent-color:var(--p)}
 .rl{display:flex;justify-content:space-between;font-size:.8rem;color:#666}
 .sbtn{width:100%;background:var(--p);color:#fff;border:none;padding:15px;font-size:1rem;font-weight:700;border-radius:12px;cursor:pointer;margin-top:15px}
+.thanks{text-align:center;padding:20px 10px}
+.thanks h2{color:var(--p);margin-bottom:10px}
+.card-contact{background:#f8f2ff;border:1.5px solid var(--b);border-radius:15px;padding:18px;margin:20px 0;line-height:1.8}
 </style>
 </head>
 <body>
 <div class="container">
+<div id="form-wrapper">
 <h1>🧵✨ Votre Commande</h1>
 <p class="sub">Choisissez votre univers et personnalisez votre création 💜</p>
-<form id="orderForm" action="https://formsubmit.co" method="POST">
-<input type="hidden" name="_subject" value="Nouvelle commande CréaProjet !">
-<input type="hidden" name="_template" value="table">
-<input type="hidden" name="_autoresponse" value="Merci pour votre commande ! 💜 J'ai bien reçu votre demande et je reviens vers vous très vite. Mes coordonnées : Tél/WhatsApp 06 21 20 26 94 | E-mail : elmundodeleden@gmail.com">
+<form id="orderForm">
 <input type="hidden" id="universInput" name="Univers" required>
 <div class="st">1. Quel est votre projet ? <span class="req">*</span></div>
 <div class="grid">
@@ -116,8 +117,21 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 <div class="fg"><label>Téléphone <span class="req">*</span></label><input type="tel" id="tel" name="Téléphone" required></div>
 <div class="fg"><label>Nom et prénom <span class="opt">(Facultatif)</span></label><input type="text" id="nom" name="Nom"></div>
 <div class="fg"><label>E-mail <span class="opt">(Facultatif)</span></label><input type="email" id="email" name="email"></div>
-<button type="submit" class="sbtn">Envoyer ma commande 🌸</button>
+<button type="submit" id="submitBtn" class="sbtn">Envoyer ma commande 🌸</button>
 </div></form></div>
+
+<div id="thank-you" class="thanks hidden">
+<h2>Merci pour votre commande ! 💜</h2>
+<p>Votre demande a bien été envoyée. Je reviens vers vous très rapidement pour en discuter ensemble.</p>
+<div class="card-contact">
+<strong>Mes coordonnées si vous souhaitez me contacter :</strong><br>
+📞 Téléphone / WhatsApp : <strong>06 21 20 26 94</strong><br>
+✉️ E-mail : <strong>elmundodeleden@gmail.com</strong>
+</div>
+<button type="button" class="sbtn" onclick="location.reload()">Passer une autre commande ✨</button>
+</div>
+</div>
+
 <script>
 let cur='';
 function selU(u,b){cur=u;document.getElementById('universInput').value=u;document.querySelectorAll('.btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');['sec-crochet','sec-couture','sec-mode'].forEach(i=>document.getElementById(i).classList.add('hidden'));['mod-d','pel-d','pel-t','aut-c','aut-co','pc-aut-d'].forEach(i=>document.getElementById(i).required=false);if(u==='Crochet')document.getElementById('sec-crochet').classList.remove('hidden');else if(u==='Couture')document.getElementById('sec-couture').classList.remove('hidden');else{document.getElementById('sec-mode').classList.remove('hidden');document.getElementById('mod-d').required=true}document.getElementById('common').classList.remove('hidden')}
@@ -126,35 +140,27 @@ function togP(){document.getElementById('col-p').classList.toggle('hidden',!docu
 function togPCAut(){const c=document.getElementById('chk-pc-aut').checked;document.getElementById('sub-pc-aut').classList.toggle('hidden',!c);document.getElementById('pc-aut-d').required=c}
 function togCA(){const c=document.getElementById('chk-ca').checked;document.getElementById('sub-ca').classList.toggle('hidden',!c);document.getElementById('aut-co').required=c}
 function upP(v){document.getElementById('pv').textContent=(v==100)?"100 € et +":v+" €"}
+
 document.getElementById('orderForm').addEventListener('submit',function(e){
-  if(cur==='Crochet'&&!document.querySelector('input[name="Type Crochet"]:checked')){e.preventDefault();alert("Choisissez un type en crochet.");return;}
-  let m="🌸 *COMMANDE ("+cur.toUpperCase()+")* 🌸\n\n";
-  if(cur==='Crochet'){
-    const t=document.querySelector('input[name="Type Crochet"]:checked').value;
-    m+="• *Type :* "+t+"\n";
-    if(t==='Porte-clés'){
-      if(document.getElementById('chk-p').checked){
-        const c=Array.from(document.querySelectorAll('input[name="Couleur Poulpe"]:checked')).map(x=>x.value).join(', ');
-        m+="• *Poulpe :* "+(c||'Couleur libre')+"\n";
-      }
-      if(document.getElementById('chk-pc-aut').checked){
-        m+="• *Autre porte-clés :* "+document.getElementById('pc-aut-d').value+"\n";
-      }
-    }else if(t==='Peluche'){m+="• *Peluche :* "+document.getElementById('pel-d').value+"\n• *Taille :* "+document.getElementById('pel-t').value+"\n";}
-    else if(t==='Autre'){m+="• *Projet :* "+document.getElementById('aut-c').value+"\n";}
-  }else if(cur==='Couture'){
-    const a=Array.from(document.querySelectorAll('input[name="Couture"]:checked')).map(x=>x.value).join(', ');
-    m+="• *Articles :* "+a+"\n";
-    if(document.getElementById('chk-ca').checked)m+="• *Autre :* "+document.getElementById('aut-co').value+"\n";
-  }else{m+="• *Mode :* "+document.getElementById('mod-d').value+"\n";}
-  const b=document.getElementById('br').value;
-  m+="• *Budget :* "+(b==100?'100 € et +':b+' €')+"\n";
-  const p=document.getElementById('prec').value;
-  if(p)m+="• *Précisions :* "+p+"\n";
-  m+="\n👤 *Tél :* "+document.getElementById('tel').value+"\n";
-  if(document.getElementById('nom').value)m+="• *Nom :* "+document.getElementById('nom').value+"\n";
-  if(document.getElementById('email').value)m+="• *Mail :* "+document.getElementById('email').value+"\n";
-  window.open('https://wa.me');
+  e.preventDefault();
+  if(cur==='Crochet'&&!document.querySelector('input[name="Type Crochet"]:checked')){alert("Choisissez un type en crochet.");return;}
+  const btn=document.getElementById('submitBtn');
+  btn.textContent="Envoi en cours... ⏳";
+  btn.disabled=true;
+  const formData=new FormData(this);
+  formData.append('_subject','Nouvelle commande CréaProjet !');
+  formData.append('_template','table');
+  fetch('https://formsubmit.co',{method:'POST',body:formData})
+  .then(res=>{
+    document.getElementById('form-wrapper').classList.add('hidden');
+    document.getElementById('thank-you').classList.remove('hidden');
+    window.scrollTo(0,0);
+  })
+  .catch(err=>{
+    document.getElementById('form-wrapper').classList.add('hidden');
+    document.getElementById('thank-you').classList.remove('hidden');
+    window.scrollTo(0,0);
+  });
 });
 </script>
 </body>
