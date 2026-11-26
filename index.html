@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Commande Couture & Crochet</title>
+<title>Commande Couture, Crochet & Sur-Mesure</title>
 <style>
 :root{--p:#9b5de5;--ph:#7b3ec4;--bg:#fdf8ff;--c:#fff;--t:#2b2d42;--b:#e0d4fc}
 *{box-sizing:border-box;font-family:sans-serif}
@@ -38,16 +38,16 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 <p class="sub">Choisissez votre univers et personnalisez votre création 💜</p>
 <form id="orderForm" action="https://formsubmit.co" method="POST">
 <input type="hidden" name="_subject" value="Nouvelle commande CréaProjet !">
-<input type="hidden" name="_captcha" value="false">
 <input type="hidden" name="_template" value="table">
-<input type="hidden" name="_autoresponse" value="Merci pour votre commande ! 💜 J'ai bien reçu votre demande. Mes coordonnées : Tél/WhatsApp 06 21 20 26 94 | E-mail : elmundodeleden@gmail.com">
+<input type="hidden" name="_autoresponse" value="Merci pour votre commande ! 💜 J'ai bien reçu votre demande et je reviens vers vous très vite. Mes coordonnées : Tél/WhatsApp 06 21 20 26 94 | E-mail : elmundodeleden@gmail.com">
 <input type="hidden" id="universInput" name="Univers" required>
 <div class="st">1. Quel est votre projet ? <span class="req">*</span></div>
 <div class="grid">
 <div class="btn" onclick="selU('Crochet',this)">🧶 Crochet</div>
 <div class="btn" onclick="selU('Couture',this)">✂️ Couture</div>
 <div class="btn" onclick="selU('Sur-mesure Mode',this)">👗 Sur-mesure Mode</div>
-</div><div id="sec-crochet" class="hidden">
+</div>
+<div id="sec-crochet" class="hidden">
 <div class="st">2. Votre création en Crochet</div>
 <div class="fg"><label>Que souhaitez-vous ? <span class="req">*</span></label>
 <div class="cg">
@@ -55,22 +55,33 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 <label class="chip"><input type="radio" name="Type Crochet" value="Peluche" onchange="togC('pel')"><span>🧸 Peluche</span></label>
 <label class="chip"><input type="radio" name="Type Crochet" value="Autre" onchange="togC('aut')"><span>✨ Autre</span></label>
 </div></div>
-<div id="sub-pc" class="hidden fg"><label>Modèle <span class="req">*</span></label>
-<div class="cg" style="margin-bottom:8px"><label class="chip"><input type="checkbox" id="chk-p" name="Modèle" value="Poulpe" onchange="togP()"><span>🐙 Poulpe</span></label></div>
-<div id="col-p" class="hidden"><label>Couleurs du poulpe <span class="req">*</span></label>
+
+<div id="sub-pc" class="hidden fg"><label>Modèle de porte-clés <span class="req">*</span></label>
+<div class="cg" style="margin-bottom:10px">
+<label class="chip"><input type="checkbox" id="chk-p" name="Modèle Porte-clés" value="Poulpe" onchange="togP()"><span>🐙 Poulpe</span></label>
+<label class="chip"><input type="checkbox" id="chk-pc-aut" name="Modèle Porte-clés" value="Autre" onchange="togPCAut()"><span>✨ Autre</span></label>
+</div>
+
+<div id="col-p" class="hidden fg"><label>Couleurs du poulpe <span class="req">*</span></label>
 <div class="cg">
-<label class="chip"><input type="checkbox" name="Couleur" value="Rouge"><span>Rouge</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Vert"><span>Vert</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Bleu"><span>Bleu</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Blanc"><span>Blanc</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Noir"><span>Noir</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Violet"><span>Violet</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Violet métal"><span>Violet métal</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Bleu métal"><span>Bleu métal</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Rose"><span>Rose</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Orange"><span>Orange</span></label>
-<label class="chip"><input type="checkbox" name="Couleur" value="Couleurs de Noël"><span>🎄 Couleurs de Noël</span></label>
-</div></div></div>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Rouge"><span>Rouge</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Vert"><span>Vert</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Bleu"><span>Bleu</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Blanc"><span>Blanc</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Noir"><span>Noir</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Violet"><span>Violet</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Violet métal"><span>Violet métal</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Bleu métal"><span>Bleu métal</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Rose"><span>Rose</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Orange"><span>Orange</span></label>
+<label class="chip"><input type="checkbox" name="Couleur Poulpe" value="Couleurs de Noël"><span>🎄 Couleurs de Noël</span></label>
+</div></div>
+
+<div id="sub-pc-aut" class="hidden fg">
+<label>Détaillez le porte-clés que vous souhaitez <span class="req">*</span></label>
+<textarea id="pc-aut-d" name="Détail Porte-clés Autre" placeholder="Décrivez la forme, les couleurs, la taille du porte-clés..."></textarea>
+</div></div>
+
 <div id="sub-pel" class="hidden">
 <div class="fg"><label>Quelle peluche ? <span class="req">*</span></label><textarea id="pel-d" name="Peluche"></textarea></div>
 <div class="fg"><label>Taille souhaitée <span class="req">*</span></label><input type="text" id="pel-t" name="Taille"></div>
@@ -109,11 +120,42 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 </div></form></div>
 <script>
 let cur='';
-function selU(u,b){cur=u;document.getElementById('universInput').value=u;document.querySelectorAll('.btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');['sec-crochet','sec-couture','sec-mode'].forEach(i=>document.getElementById(i).classList.add('hidden'));['mod-d','pel-d','pel-t','aut-c','aut-co'].forEach(i=>document.getElementById(i).required=false);if(u==='Crochet')document.getElementById('sec-crochet').classList.remove('hidden');else if(u==='Couture')document.getElementById('sec-couture').classList.remove('hidden');else{document.getElementById('sec-mode').classList.remove('hidden');document.getElementById('mod-d').required=true}document.getElementById('common').classList.remove('hidden')}
-function togC(t){['sub-pc','sub-pel','sub-aut'].forEach(i=>document.getElementById(i).classList.add('hidden'));['pel-d','pel-t','aut-c'].forEach(i=>document.getElementById(i).required=false);if(t==='pc')document.getElementById('sub-pc').classList.remove('hidden');else if(t==='pel'){document.getElementById('sub-pel').classList.remove('hidden');document.getElementById('pel-d').required=true;document.getElementById('pel-t').required=true}else{document.getElementById('sub-aut').classList.remove('hidden');document.getElementById('aut-c').required=true}}
+function selU(u,b){cur=u;document.getElementById('universInput').value=u;document.querySelectorAll('.btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');['sec-crochet','sec-couture','sec-mode'].forEach(i=>document.getElementById(i).classList.add('hidden'));['mod-d','pel-d','pel-t','aut-c','aut-co','pc-aut-d'].forEach(i=>document.getElementById(i).required=false);if(u==='Crochet')document.getElementById('sec-crochet').classList.remove('hidden');else if(u==='Couture')document.getElementById('sec-couture').classList.remove('hidden');else{document.getElementById('sec-mode').classList.remove('hidden');document.getElementById('mod-d').required=true}document.getElementById('common').classList.remove('hidden')}
+function togC(t){['sub-pc','sub-pel','sub-aut'].forEach(i=>document.getElementById(i).classList.add('hidden'));['pel-d','pel-t','aut-c','pc-aut-d'].forEach(i=>document.getElementById(i).required=false);if(t==='pc'){document.getElementById('sub-pc').classList.remove('hidden');if(document.getElementById('chk-pc-aut').checked)document.getElementById('pc-aut-d').required=true}else if(t==='pel'){document.getElementById('sub-pel').classList.remove('hidden');document.getElementById('pel-d').required=true;document.getElementById('pel-t').required=true}else{document.getElementById('sub-aut').classList.remove('hidden');document.getElementById('aut-c').required=true}}
 function togP(){document.getElementById('col-p').classList.toggle('hidden',!document.getElementById('chk-p').checked)}
+function togPCAut(){const c=document.getElementById('chk-pc-aut').checked;document.getElementById('sub-pc-aut').classList.toggle('hidden',!c);document.getElementById('pc-aut-d').required=c}
 function togCA(){const c=document.getElementById('chk-ca').checked;document.getElementById('sub-ca').classList.toggle('hidden',!c);document.getElementById('aut-co').required=c}
 function upP(v){document.getElementById('pv').textContent=(v==100)?"100 € et +":v+" €"}
-document.getElementById('orderForm').addEventListener('submit',function(e){if(cur==='Crochet'&&!document.querySelector('input[name="Type Crochet"]:checked')){e.preventDefault();alert("Choisissez un type en crochet.");return}let m=`🌸 *COMMANDE (${cur.toUpperCase()})* 🌸\n\n`;if(cur==='Crochet'){const t=document.querySelector('input[name="Type Crochet"]:checked').value;m+=`• *Type :* ${t}\n`;if(t==='Porte-clés'&&document.getElementById('chk-p').checked){const c=Array.from(document.querySelectorAll('input[name="Couleur"]:checked')).map(x=>x.value).join(', ');m+=`• *Poulpe :* ${c||'Couleur libre'}\n`}else if(t==='Peluche')m+=`• *Peluche :* ${document.getElementById('pel-d').value}\n• *Taille :* ${document.getElementById('pel-t').value}\n`;else if(t==='Autre')m+=`• *Projet :* ${document.getElementById('aut-c').value}\n`}else if(cur==='Couture'){const a=Array.from(document.querySelectorAll('input[name="Couture"]:checked')).map(x=>x.value).join(', ');m+=`• *Articles :* ${a}\n`;if(document.getElementById('chk-ca').checked)m+=`• *Autre :* ${document.getElementById('aut-co').value}\n`}else m+=`• *Mode :* ${document.getElementById('mod-d').value}\n`;const b=document.getElementById('br').value;m+=`• *Budget :* ${b==100?'100 € et +':b+' €'}\n`;const p=document.getElementById('prec').value;if(p)m+=`• *Précisions :* ${p}\n`;m+=`\n👤 *Tél :* ${document.getElementById('tel').value}\n`;if(document.getElementById('nom').value)m+=`• *Nom :* ${document.getElementById('nom').value}\n`;if(document.getElementById('email').value)m+=`• *Mail :* ${document.getElementById('email').value}\n`;window.open(`https://wa.me{encodeURIComponent(m)}`,'_blank')});
-</script></body></html>
-
+document.getElementById('orderForm').addEventListener('submit',function(e){
+  if(cur==='Crochet'&&!document.querySelector('input[name="Type Crochet"]:checked')){e.preventDefault();alert("Choisissez un type en crochet.");return;}
+  let m="🌸 *COMMANDE ("+cur.toUpperCase()+")* 🌸\n\n";
+  if(cur==='Crochet'){
+    const t=document.querySelector('input[name="Type Crochet"]:checked').value;
+    m+="• *Type :* "+t+"\n";
+    if(t==='Porte-clés'){
+      if(document.getElementById('chk-p').checked){
+        const c=Array.from(document.querySelectorAll('input[name="Couleur Poulpe"]:checked')).map(x=>x.value).join(', ');
+        m+="• *Poulpe :* "+(c||'Couleur libre')+"\n";
+      }
+      if(document.getElementById('chk-pc-aut').checked){
+        m+="• *Autre porte-clés :* "+document.getElementById('pc-aut-d').value+"\n";
+      }
+    }else if(t==='Peluche'){m+="• *Peluche :* "+document.getElementById('pel-d').value+"\n• *Taille :* "+document.getElementById('pel-t').value+"\n";}
+    else if(t==='Autre'){m+="• *Projet :* "+document.getElementById('aut-c').value+"\n";}
+  }else if(cur==='Couture'){
+    const a=Array.from(document.querySelectorAll('input[name="Couture"]:checked')).map(x=>x.value).join(', ');
+    m+="• *Articles :* "+a+"\n";
+    if(document.getElementById('chk-ca').checked)m+="• *Autre :* "+document.getElementById('aut-co').value+"\n";
+  }else{m+="• *Mode :* "+document.getElementById('mod-d').value+"\n";}
+  const b=document.getElementById('br').value;
+  m+="• *Budget :* "+(b==100?'100 € et +':b+' €')+"\n";
+  const p=document.getElementById('prec').value;
+  if(p)m+="• *Précisions :* "+p+"\n";
+  m+="\n👤 *Tél :* "+document.getElementById('tel').value+"\n";
+  if(document.getElementById('nom').value)m+="• *Nom :* "+document.getElementById('nom').value+"\n";
+  if(document.getElementById('email').value)m+="• *Mail :* "+document.getElementById('email').value+"\n";
+  window.open('https://wa.me');
+});
+</script>
+</body>
+</html>
