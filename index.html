@@ -40,11 +40,10 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 <div id="form-wrapper">
 <h1>🧵✨ Votre Commande</h1>
 <p class="sub">Choisissez votre univers et personnalisez votre création 💜</p>
-<form id="orderForm" action="https://web3forms.com" method="POST">
+<form id="orderForm">
 <input type="hidden" name="access_key" value="98085d66-7173-46cd-9c5c-54cdf33ef642">
 <input type="hidden" name="subject" value="Nouvelle commande CréaProjet ! 🌸">
 <input type="hidden" name="from_name" value="CréaProjet Site Web">
-<input type="hidden" name="redirect" value="https://netlify.app">
 <input type="hidden" id="universInput" name="Univers" required>
 <div class="st">1. Quel est votre projet ? <span class="req">*</span></div>
 <div class="grid">
@@ -137,10 +136,6 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 </div>
 
 <script>
-if(window.location.search.includes('merci=1')){
-  document.getElementById('form-wrapper').classList.add('hidden');
-  document.getElementById('thank-you').classList.remove('hidden');
-}
 let cur='';
 function selU(u,b){cur=u;document.getElementById('universInput').value=u;document.querySelectorAll('.btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');['sec-crochet','sec-couture','sec-mode'].forEach(i=>document.getElementById(i).classList.add('hidden'));['mod-d','pel-d','pel-t','aut-c','aut-co','pc-aut-d'].forEach(i=>document.getElementById(i).required=false);if(u==='Crochet')document.getElementById('sec-crochet').classList.remove('hidden');else if(u==='Couture')document.getElementById('sec-couture').classList.remove('hidden');else{document.getElementById('sec-mode').classList.remove('hidden');document.getElementById('mod-d').required=true}document.getElementById('common').classList.remove('hidden')}
 function togC(t){['sub-pc','sub-pel','sub-aut'].forEach(i=>document.getElementById(i).classList.add('hidden'));['pel-d','pel-t','aut-c','pc-aut-d'].forEach(i=>document.getElementById(i).required=false);if(t==='pc'){document.getElementById('sub-pc').classList.remove('hidden');if(document.getElementById('chk-pc-aut').checked)document.getElementById('pc-aut-d').required=true}else if(t==='pel'){document.getElementById('sub-pel').classList.remove('hidden');document.getElementById('pel-d').required=true;document.getElementById('pel-t').required=true}else{document.getElementById('sub-aut').classList.remove('hidden');document.getElementById('aut-c').required=true}}
@@ -148,8 +143,45 @@ function togP(){document.getElementById('col-p').classList.toggle('hidden',!docu
 function togPCAut(){const c=document.getElementById('chk-pc-aut').checked;document.getElementById('sub-pc-aut').classList.toggle('hidden',!c);document.getElementById('pc-aut-d').required=c}
 function togCA(){const c=document.getElementById('chk-ca').checked;document.getElementById('sub-ca').classList.toggle('hidden',!c);document.getElementById('aut-co').required=c}
 function upP(v){document.getElementById('pv').textContent=(v==100)?"100 € et +":v+" €"}
-document.getElementById('orderForm').addEventListener('submit',function(e){
-  if(cur==='Crochet'&&!document.querySelector('input[name="Type Crochet"]:checked')){e.preventDefault();alert("Choisissez un type en crochet.");}
+
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (cur === 'Crochet' && !document.querySelector('input[name="Type Crochet"]:checked')) {
+    alert("Choisissez un type en crochet.");
+    return;
+  }
+  const btn = this.querySelector('button[type="submit"]');
+  btn.textContent = "Envoi en cours... ⏳";
+  btn.disabled = true;
+
+  const formData = new FormData(this);
+  const object = {};
+  formData.forEach((value, key) => {
+    object[key] = object[key] ? object[key] + ', ' + value : value;
+  });
+
+  fetch('https://web3forms.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(object)
+  })
+  .then(async (response) => {
+    let json = await response.json();
+    if (response.status == 200) {
+      document.getElementById('form-wrapper').classList.add('hidden');
+      document.getElementById('thank-you').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    } else {
+      alert("Erreur : " + json.message);
+      btn.textContent = "Envoyer ma commande 🌸";
+      btn.disabled = false;
+    }
+  })
+  .catch(error => {
+    alert("Une erreur est survenue lors de l'envoi.");
+    btn.textContent = "Envoyer ma commande 🌸";
+    btn.disabled = false;
+  });
 });
 </script>
 </body>
