@@ -40,10 +40,8 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 <div id="form-wrapper">
 <h1>🧵✨ Votre Commande</h1>
 <p class="sub">Choisissez votre univers et personnalisez votre création 💜</p>
-<form id="orderForm">
-<input type="hidden" name="access_key" value="98085d66-7173-46cd-9c5c-54cdf33ef642">
-<input type="hidden" name="subject" value="Nouvelle commande CréaProjet ! 🌸">
-<input type="hidden" name="from_name" value="CréaProjet Site Web">
+<form id="orderForm" name="commandes" method="POST" data-netlify="true">
+<input type="hidden" name="form-name" value="commandes">
 <input type="hidden" id="universInput" name="Univers" required>
 <div class="st">1. Quel est votre projet ? <span class="req">*</span></div>
 <div class="grid">
@@ -119,7 +117,7 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 <div class="st">4. Vos coordonnées</div>
 <div class="fg"><label>Téléphone <span class="req">*</span></label><input type="tel" id="tel" name="Téléphone" required></div>
 <div class="fg"><label>Nom et prénom <span class="opt">(Facultatif)</span></label><input type="text" id="nom" name="Nom"></div>
-<div class="fg"><label>E-mail <span class="opt">(Facultatif)</span></label><input type="email" id="email" name="email"></div>
+<div class="fg"><label>E-mail <span class="opt">(Facultatif)</span></label><input type="email" id="email" name="Email"></div>
 <button type="submit" class="sbtn">Envoyer ma commande 🌸</button>
 </div></form></div>
 
@@ -131,7 +129,7 @@ input[type="range"]{width:100%;accent-color:var(--p)}
 📞 Téléphone / WhatsApp : <strong>06 21 20 26 94</strong><br>
 ✉️ E-mail : <strong>elmundodeleden@gmail.com</strong>
 </div>
-<button type="button" class="sbtn" onclick="window.location.href='https://netlify.app'">Passer une autre commande ✨</button>
+<button type="button" class="sbtn" onclick="window.location.href='/'">Passer une autre commande ✨</button>
 </div>
 </div>
 
@@ -155,30 +153,25 @@ document.getElementById('orderForm').addEventListener('submit', function(e) {
   btn.disabled = true;
 
   const formData = new FormData(this);
-  const object = {};
+  const grouped = new URLSearchParams();
+  const map = {};
   formData.forEach((value, key) => {
-    object[key] = object[key] ? object[key] + ', ' + value : value;
+    map[key] = map[key] ? map[key] + ', ' + value : value;
   });
+  for (const k in map) { grouped.append(k, map[k]); }
 
-  fetch('https://web3forms.com', {
+  fetch('/', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(object)
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: grouped.toString()
   })
-  .then(async (response) => {
-    let json = await response.json();
-    if (response.status == 200) {
-      document.getElementById('form-wrapper').classList.add('hidden');
-      document.getElementById('thank-you').classList.remove('hidden');
-      window.scrollTo(0, 0);
-    } else {
-      alert("Erreur : " + json.message);
-      btn.textContent = "Envoyer ma commande 🌸";
-      btn.disabled = false;
-    }
+  .then(() => {
+    document.getElementById('form-wrapper').classList.add('hidden');
+    document.getElementById('thank-you').classList.remove('hidden');
+    window.scrollTo(0, 0);
   })
-  .catch(error => {
-    alert("Une erreur est survenue lors de l'envoi.");
+  .catch(() => {
+    alert("Erreur réseau, veuillez réessayer.");
     btn.textContent = "Envoyer ma commande 🌸";
     btn.disabled = false;
   });
